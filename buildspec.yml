@@ -3,8 +3,9 @@ phases:
   pre_build:
     commands:
       - OFFICIAL_IMAGE=nginx
-      - destImage=XXXXX.dkr.ecr.eu-west-1.amazonaws.com/common-images:$OFFICIAL_IMAGE
-      - echo "password" | docker login -u jjino --password-stdin
+      - ECR=456774515540.dkr.ecr.eu-west-1.amazonaws.com/common-images
+      - destImage=$ECR:$OFFICIAL_IMAGE
+      - echo "PASSWORD@123" | docker login -u jjino --password-stdin
       - docker pull $OFFICIAL_IMAGE
       - docker logout
   build:
