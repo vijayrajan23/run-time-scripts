@@ -1,0 +1,24 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - OFFICIAL_IMAGE=nginx # Only latest images supported.
+      - echo "password@123" | docker login -u username --password-stdin
+      - docker pull $OFFICIAL_IMAGE
+      - docker logout
+      - REPOSITORY_URI=456774515540.dkr.ecr.eu-west-1.amazonaws.com/common-images
+      # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker images
+      - echo Building the Docker image...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - destImage=456774515540.dkr.ecr.eu-west-1.amazonaws.com/common-images:$OFFICIAL_IMAGE
+      - docker tag $OFFICIAL_IMAGE $destImage
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - destImage=456774515540.dkr.ecr.eu-west-1.amazonaws.com/common-images:$OFFICIAL_IMAGE
+      - docker push $destImage
