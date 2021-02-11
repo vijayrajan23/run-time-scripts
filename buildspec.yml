@@ -3,15 +3,14 @@ phases:
   pre_build:
     commands:
       - OFFICIAL_IMAGE=nginx
-      - AWS_REGION='eu-west-1'
-      - destImage=xxxx.dkr.ecr.eu-west-1.amazonaws.com/common-images:$OFFICIAL_IMAGE
-      - echo "password" | docker login -u username --password-stdin
+      - destImage=XXXXX.dkr.ecr.eu-west-1.amazonaws.com/common-images:$OFFICIAL_IMAGE
+      - echo "password" | docker login -u jjino --password-stdin
       - docker pull $OFFICIAL_IMAGE
       - docker logout
   build:
     commands:
       - echo Build started on `date`
-      - $(aws ecr get-login --region $AWS_REGION --no-include-email)
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker tag $OFFICIAL_IMAGE $destImage
   post_build:
     commands:
