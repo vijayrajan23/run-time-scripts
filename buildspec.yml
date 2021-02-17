@@ -1,16 +1,13 @@
-
 version: 0.2
 env:
   variables:
-    OFFICIAL_IMAGE: "node"
+    OFFICIAL_IMAGE: "nginx"
     ECR: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
 phases:
   pre_build:
     commands:
       - destImage=$ECR:$OFFICIAL_IMAGE
-      - echo "Akila@19" | docker login -u jjino --password-stdin
       - docker pull $OFFICIAL_IMAGE
-      - docker logout
     finally:
       - echo This always runs even if the update or install command fails 
   build:
