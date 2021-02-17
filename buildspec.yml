@@ -3,27 +3,37 @@ version: 0.2
 env:
   variables:
     REGION: "us-east-1"
-    DOCKER_IMAGE_NAME: "redis"
-    ECR_REPO_NAME: "node"
-    ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
+    DOCKER_IMAGE_NAME1: "node"
+    ECR_REPO_NAME1: "node"
+    ECR_REPO_URL1: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
+    
+    DOCKER_IMAGE_NAME2: "python"
+    ECR_REPO_NAME2: "python"
+    ECR_REPO_URL2: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
 phases:
   pre_build:
     commands:
-      - destImage=$ECR_REPO_URL/$ECR_REPO_NAME:$DOCKER_IMAGE_NAME
-      - docker pull $DOCKER_IMAGE_NAME
+      - destImage1=$ECR_REPO_URL1/$ECR_REPO_NAME1:$DOCKER_IMAGE_NAME1
+      - docker pull $DOCKER_IMAGE_NAME1
+      
+      - destImage2=$ECR_REPO_URL2/$ECR_REPO_NAME2:$DOCKER_IMAGE_NAME2
+      - docker pull $DOCKER_IMAGE_NAME2
     finally:
       - echo This always runs even if the update or install command fails 
   build:
     commands:
       - echo Build started on `date`
       - $(aws ecr get-login --region $REGION --no-include-email)
-      - docker tag $DOCKER_IMAGE_NAME $destImage
-      - docker push $destImage
+      - docker tag $DOCKER_IMAGE_NAME1 $destImage1
+      - docker push $destImage1
+      - docker tag $DOCKER_IMAGE_NAME2 $destImage2
+      - docker push $destImage2
     finally:
       - echo tag completed
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME1 --image-id imageTag=$DOCKER_IMAGE_NAME1 --region $REGION
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME2 --image-id imageTag=$DOCKER_IMAGE_NAME2 --region $REGION
     finally:
       - echo image reports generated.
