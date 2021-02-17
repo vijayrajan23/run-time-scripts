@@ -2,21 +2,21 @@
 version: 0.2
 env:
   variables:
-    REGION: "us-east-1"
-    DOCKER_IMAGE_NAME: "nginx"
-    ECR_REPO_NAME: "node"
-    ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
+    DOCKER_IMAGE_NAME: "redis"
+    RCR_REPO_NAME: "node"
+    # ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
+    ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
 phases:
   pre_build:
     commands:
-      - destImage=$ECR_REPO_URL:$DOCKER_IMAGE_NAME
+      - destImage=$ECR_REPO_URL/$RCR_REPO_NAME:$DOCKER_IMAGE_NAME
       - docker pull $DOCKER_IMAGE_NAME
     finally:
       - echo This always runs even if the update or install command fails 
   build:
     commands:
       - echo Build started on `date`
-      - $(aws ecr get-login --region $REGION --no-include-email)
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker tag $DOCKER_IMAGE_NAME $destImage
       - docker push $destImage
     finally:
@@ -24,16 +24,6 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name=$ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION 
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region us-east-1 > target/result.json
     finally:
-      - echo image reports generated....
-
-# reports:
-#   report-group-name-or-arn:
-#     files:
-#       - result.json
-#     base-directory: target
-#     discard-paths: no
-#     file-format: report-format
-
-# https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+      - echo image reports generated.
