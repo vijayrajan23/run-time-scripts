@@ -1,19 +1,28 @@
+
 version: 0.2
+env:
+  variables:
+    OFFICIAL_IMAGE: "node"
+    ECR: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
 phases:
   pre_build:
     commands:
-      - OFFICIAL_IMAGE=nginx
-      - ECR=456774515540.dkr.ecr.eu-west-1.amazonaws.com/common-images
       - destImage=$ECR:$OFFICIAL_IMAGE
-      - echo "PASSWORD@123" | docker login -u jjino --password-stdin
+      - echo "Akila@19" | docker login -u jjino --password-stdin
       - docker pull $OFFICIAL_IMAGE
       - docker logout
+    finally:
+      - echo This always runs even if the update or install command fails 
   build:
     commands:
       - echo Build started on `date`
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker tag $OFFICIAL_IMAGE $destImage
+    finally:
+      - echo tag completed
   post_build:
     commands:
       - echo Build completed on `date`
       - docker push $destImage
+    finally:
+      - echo Images completed.
