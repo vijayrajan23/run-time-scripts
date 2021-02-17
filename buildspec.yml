@@ -4,13 +4,13 @@ env:
   variables:
     REGION: "us-east-1"
     DOCKER_IMAGE_NAME: "redis"
-    RCR_REPO_NAME: "node"
+    ECR_REPO_NAME: "node"
     # ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
     ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
 phases:
   pre_build:
     commands:
-      - destImage=$ECR_REPO_URL/$RCR_REPO_NAME:$DOCKER_IMAGE_NAME
+      - destImage=$ECR_REPO_URL/$ECR_REPO_NAME:$DOCKER_IMAGE_NAME
       - echo "Akila@19" | docker login -u jjino --password-stdin
       - docker pull $DOCKER_IMAGE_NAME
     finally:
@@ -18,7 +18,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - $(aws ecr get-login --region $REGION --no-include-email)
       - docker tag $DOCKER_IMAGE_NAME $destImage
       - docker push $destImage
     finally:
@@ -26,7 +26,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name node --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
 #       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
     finally:
       - echo image reports generated.
