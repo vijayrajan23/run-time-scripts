@@ -1,13 +1,12 @@
 version: 0.2
 env:
   variables:
-    OFFICIAL_IMAGE: "httpd"
-    ECR_REPO_NAME: node
-    ECR_FULL_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
+    OFFICIAL_IMAGE: "nginx"
+    ECR: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
 phases:
   pre_build:
     commands:
-      - destImage=$ECR_FULL_URL:$OFFICIAL_IMAGE
+      - destImage=$ECR:$OFFICIAL_IMAGE
       - docker pull $OFFICIAL_IMAGE
     finally:
       - echo This always runs even if the update or install command fails 
@@ -22,6 +21,13 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$OFFICIAL_IMAGE --region us-east-1 > result.txt
+      - mkdir target
+      - aws ecr describe-image-scan-findings --repository-name node --image-id imageTag=node --region us-east-1 > target/result.txt
     finally:
       - echo image reports generated....
+
+reports: #New
+  SurefireReports:
+    files:
+      - '*'
+    base-directory: 'target'
