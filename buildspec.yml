@@ -1,3 +1,4 @@
+
 version: 0.2
 env:
   variables:
@@ -22,12 +23,16 @@ phases:
     commands:
       - echo Build completed on `date`
       - mkdir target
-      - aws ecr describe-image-scan-findings --repository-name node --image-id imageTag=node --region us-east-1 > target/result.txt
+      - aws ecr describe-image-scan-findings --repository-name node --image-id imageTag=node --region us-east-1 > target/result.json
     finally:
       - echo image reports generated....
 
-reports: #New
-  SurefireReports:
+reports:
+  report-group-name-or-arn:
     files:
-      - '*'
-    base-directory: 'target'
+      - result.json
+    base-directory: target
+    discard-paths: no
+    file-format: report-format
+
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
