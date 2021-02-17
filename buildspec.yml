@@ -26,6 +26,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
+      - aws ecr describe-image-scan-findings --repository-name node --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
+#       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
     finally:
       - echo image reports generated.
