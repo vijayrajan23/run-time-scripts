@@ -18,7 +18,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - $(aws ecr get-login --region $REGION --no-include-email)
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker tag $DOCKER_IMAGE_NAME $destImage
       - docker push $destImage
     finally:
@@ -26,6 +26,6 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr describe-image-scan-findings --repository-name=$ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
     finally:
       - echo image reports generated.
