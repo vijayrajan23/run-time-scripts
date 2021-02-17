@@ -10,6 +10,7 @@ phases:
   pre_build:
     commands:
       - destImage=$ECR_REPO_URL/$RCR_REPO_NAME:$DOCKER_IMAGE_NAME
+      - echo "Akila@19" | docker login -u jjino --password-stdin
       - docker pull $DOCKER_IMAGE_NAME
     finally:
       - echo This always runs even if the update or install command fails 
