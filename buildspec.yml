@@ -19,13 +19,15 @@ phases:
       - destImage2=$ECR_REPO_URL2/$ECR_REPO_NAME2:$DOCKER_IMAGE_NAME2
       - docker pull $DOCKER_IMAGE_NAME2
     finally:
-      - echo This always runs even if the update or install command fails 
+      - echo docker bash images download from docker hub 
   build:
     commands:
       - echo Build started on `date`
       - $(aws ecr get-login --region $REGION --no-include-email)
+      
       - docker tag $DOCKER_IMAGE_NAME1 $destImage1
       - docker push $destImage1
+      
       - docker tag $DOCKER_IMAGE_NAME2 $destImage2
       - docker push $destImage2
     finally:
@@ -33,7 +35,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      
       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME1 --image-id imageTag=$DOCKER_IMAGE_NAME1 --region $REGION
+      
       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME2 --image-id imageTag=$DOCKER_IMAGE_NAME2 --region $REGION
     finally:
       - echo image reports generated.
