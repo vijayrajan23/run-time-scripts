@@ -1,12 +1,13 @@
 version: 0.2
 env:
   variables:
-    OFFICIAL_IMAGE: "nginx"
-    ECR: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
+    OFFICIAL_IMAGE: "httpd"
+    ECR_REPO_NAME: node
+    ECR_FULL_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
 phases:
   pre_build:
     commands:
-      - destImage=$ECR:$OFFICIAL_IMAGE
+      - destImage=$ECR_FULL_URL:$OFFICIAL_IMAGE
       - docker pull $OFFICIAL_IMAGE
     finally:
       - echo This always runs even if the update or install command fails 
@@ -15,11 +16,12 @@ phases:
       - echo Build started on `date`
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker tag $OFFICIAL_IMAGE $destImage
+      - docker push $destImage
     finally:
       - echo tag completed
   post_build:
     commands:
       - echo Build completed on `date`
-      - docker push $destImage
+      - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$OFFICIAL_IMAGE --region us-east-1
     finally:
-      - echo Images completed.
+      - echo image reports generated....
