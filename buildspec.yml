@@ -5,13 +5,11 @@ env:
     REGION: "us-east-1"
     DOCKER_IMAGE_NAME: "redis"
     ECR_REPO_NAME: "node"
-    # ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com/node"
     ECR_REPO_URL: "456774515540.dkr.ecr.us-east-1.amazonaws.com"
 phases:
   pre_build:
     commands:
       - destImage=$ECR_REPO_URL/$ECR_REPO_NAME:$DOCKER_IMAGE_NAME
-      - echo "Akila@19" | docker login -u jjino --password-stdin
       - docker pull $DOCKER_IMAGE_NAME
     finally:
       - echo This always runs even if the update or install command fails 
@@ -27,6 +25,5 @@ phases:
     commands:
       - echo Build completed on `date`
       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
-#       - aws ecr describe-image-scan-findings --repository-name $ECR_REPO_NAME --image-id imageTag=$DOCKER_IMAGE_NAME --region $REGION
     finally:
       - echo image reports generated.
