@@ -2,6 +2,10 @@
 - name: RESTORE THE MONGODB JSON
   hosts: localhost
   vars:
+    # COPY THE FILES LOCALHOST TO REMOTE HOST VARIBLES
+    SOURCE_FILE_LOCATION: /opt/backup/mongodump
+    DEST_FILE_LOCATION: /mnt/backup/mongodump
+    
     # MONGODB SOURCE FILE VARIBLES
     MONGO_RESTORE_FROM_LOCALHOST_SERVER: false
     MONGO_RESTORE_FROM_REMOTE_SERVER: false
@@ -10,9 +14,7 @@
     MONGO_PASSWORD: password
     MONGO_PORT: 27017
     MONGO_DIR: /mnt/backup/mongodump
-    # COPY THE FILES LOCALHOST TO REMOTE HOST VARIBLES
-    SOURCE_FILE_LOCATION: /opt/backup/mongodump
-    DEST_FILE_LOCATION: /mnt/backup/mongodump
+
   tasks:
   
   - name: COPY THE FOLDER localhost server to MONGO
