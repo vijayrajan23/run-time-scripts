@@ -9,7 +9,7 @@
     MONGO_USERNAME: user
     MONGO_PASSWORD: password
     MONGO_PORT: 27017
-    MONGO_DIR: /opt/backup/mongodump-2013-10-24
+    MONGO_DIR: /mnt/backup/mongodump
     # COPY THE FILES LOCALHOST TO REMOTE HOST VARIBLES
     SOURCE_FILE_LOCATION: /opt/backup/mongodump
     DEST_FILE_LOCATION: /mnt/backup/mongodump
