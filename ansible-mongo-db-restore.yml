@@ -2,14 +2,24 @@
 - name: RESTORE THE MONGODB JSON
   hosts: localhost
   vars:
-    MONGO_RESTORE_FROM_REMOTE_SERVER: true
+    # MONGODB SOURCE FILE VARIBLES
+    MONGO_RESTORE_FROM_LOCALHOST_SERVER: false
+    MONGO_RESTORE_FROM_REMOTE_SERVER: false
     MONGO_HOST: mongodb1.example.net
     MONGO_USERNAME: user
     MONGO_PASSWORD: password
     MONGO_PORT: 27017
     MONGO_DIR: /opt/backup/mongodump-2013-10-24
-    MONGO_RESTORE_FROM_LOCALHOST_SERVER: false
+    # COPY THE FILES LOCALHOST TO REMOTE HOST VARIBLES
+    SOURCE_FILE_LOCATION: /opt/backup/mongodump
+    DEST_FILE_LOCATION: /mnt/backup/mongodump
   tasks:
+  
+  - name: COPY THE FOLDER localhost server to MONGO
+    copy:
+      src: {{ SOURCE_FILE_LOCATION }}
+      dest: {{ DEST_FILE_LOCATION }}
+      remote_src: yes
 
   - name: RESTORE THE MONGo DOCUMENTS
     shell: "mongodump --host={{ MONGO_USERNAME }} --port={{ MONGO_PORT }} --username={{ MONGO_USERNAME }} --password={{ MONGO_PASSWORD }} --out={{ MONGO_DIR }}"
@@ -22,7 +32,7 @@
     when: MONGO_RESTORE_FROM_REMOTE_SERVER
 
   - name: RESTORE THE MONGo DOCUMENTS
-    shell: "mongodump --username={{ MONGO_USERNAME }} --password={{ MONGO_PASSWORD }} --out={{ MONGO_DIR }}"
+    shell: "mongodump --port=27017 --username={{ MONGO_USERNAME }} --password={{ MONGO_PASSWORD }} --out={{ MONGO_DIR }}"
     register: _RESTORE_LOCALHOST_RESULT
     when: MONGO_RESTORE_FROM_LOCALHOST_SERVER
 
