@@ -1,0 +1,32 @@
+---
+- name: RESTORE THE MONGODB JSON
+  hosts: localhost
+  vars:
+    MONGO_RESTORE_FROM_REMOTE_SERVER: true
+    MONGO_HOST: mongodb1.example.net
+    MONGO_USERNAME: user
+    MONGO_PASSWORD: password
+    MONGO_PORT: 27017
+    MONGO_DIR: /opt/backup/mongodump-2013-10-24
+    MONGO_RESTORE_FROM_LOCALHOST_SERVER: false
+  tasks:
+
+  - name: RESTORE THE MONGo DOCUMENTS
+    shell: "mongodump --host={{ MONGO_USERNAME }} --port={{ MONGO_PORT }} --username={{ MONGO_USERNAME }} --password={{ MONGO_PASSWORD }} --out={{ MONGO_DIR }}"
+    register: _RESTORE_RESULT
+    when: MONGO_RESTORE_FROM_REMOTE_SERVER
+
+  - name: DEBUG THE RESULT
+    debug:
+      msg: "{{ _RESTORE_RESULT }}"
+    when: MONGO_RESTORE_FROM_REMOTE_SERVER
+
+  - name: RESTORE THE MONGo DOCUMENTS
+    shell: "mongodump --port=27017 --username={{ MONGO_USERNAME }} --password={{ MONGO_PASSWORD }} --out={{ MONGO_DIR }}"
+    register: _RESTORE_LOCALHOST_RESULT
+    when: MONGO_RESTORE_FROM_LOCALHOST_SERVER
+
+  - name: DEBUG THE RESULT
+    debug:
+      msg: "{{ _RESTORE_LOCALHOST_RESULT }}"
+    when: MONGO_RESTORE_FROM_LOCALHOST_SERVER
