@@ -38,7 +38,7 @@
   service:
     name: elasticsearch
     state: started
-    enabled: true
+    enabled: yes
     
 - name: Debian - Ensure elasticsearch is installed
   become: yes
