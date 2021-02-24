@@ -19,8 +19,8 @@
   
   - name: COPY THE FOLDER localhost server to MONGO
     copy:
-      src: {{ SOURCE_FILE_LOCATION }}
-      dest: {{ DEST_FILE_LOCATION }}
+      src: "{{ SOURCE_FILE_LOCATION }}"
+      dest: "{{ DEST_FILE_LOCATION }}"
       remote_src: yes
 
   - name: RESTORE THE MONGo DOCUMENTS
