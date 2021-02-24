@@ -2,6 +2,6 @@ Role name - ansible-mongo-db-restore
 
     ---
     - hosts: localhost
-      remote_user: root
+      connection: local
       roles:
-        - ansible-mongo-db-restore
+        - role: ansible-mongo-db-restore
