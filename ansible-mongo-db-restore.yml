@@ -6,7 +6,7 @@
     SOURCE_FILE_LOCATION: /opt/backup/mongodump
     DEST_FILE_LOCATION: /mnt/backup/mongodump
     
-    # MONGODB SOURCE FILE VARIBLES
+    # MONGODB RESTORE DATA VARIBLES
     MONGO_RESTORE_FROM_LOCALHOST_SERVER: true
     MONGO_RESTORE_FROM_REMOTE_SERVER: false
     MONGO_HOST: mongodb1.example.net             # REMOTE SERVER ENABLED
