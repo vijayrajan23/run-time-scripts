@@ -25,7 +25,7 @@
       remote_src: yes
 
   - name: RESTORE THE MONGo DOCUMENTS
-    shell:  "mongorestore --host={{ MONGO_USERNAME }} --port={{ MONGO_PORT }} --username={{ MONGO_USERNAME }} --db={{ MONGO_DBNAME }} --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"
+    shell:  "mongorestore --host={{ MONGO_USERNAME }} --gzip --port={{ MONGO_PORT }} --username={{ MONGO_USERNAME }} --db={{ MONGO_DBNAME }} --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"
     register: _RESTORE_RESULT
     when: MONGO_RESTORE_FROM_REMOTE_SERVER
 
@@ -35,7 +35,7 @@
     when: MONGO_RESTORE_FROM_REMOTE_SERVER
 
   - name: RESTORE THE MONGo DOCUMENTS
-    shell:  "mongorestore --username={{ MONGO_USERNAME }} --db={{ MONGO_DBNAME }} --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"   
+    shell:  "mongorestore --gzip --username={{ MONGO_USERNAME }} --db={{ MONGO_DBNAME }} --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"   
     register: _RESTORE_LOCALHOST_RESULT
     when: MONGO_RESTORE_FROM_LOCALHOST_SERVER
 
