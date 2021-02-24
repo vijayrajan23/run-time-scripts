@@ -35,7 +35,7 @@
     when: MONGO_RESTORE_FROM_REMOTE_SERVER
 
   - name: RESTORE THE MONGo DOCUMENTS
-    shell:  "mongorestore --gzip --username={{ MONGO_USERNAME }} --db={{ MONGO_DBNAME }} --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"   
+    shell:  "mongorestore --gzip --db={{ MONGO_DBNAME }} --username={{ MONGO_USERNAME }}  --password={{ MONGO_PASSWORD }} {{ MONGO_DIR }}"   
     register: _RESTORE_LOCALHOST_RESULT
     when: MONGO_RESTORE_FROM_LOCALHOST_SERVER
 
