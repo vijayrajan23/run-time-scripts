@@ -10,9 +10,9 @@
     MONGO_RESTORE_FROM_LOCALHOST_SERVER: true
     MONGO_RESTORE_FROM_REMOTE_SERVER: false
     MONGO_HOST: mongodb1.example.net             # REMOTE SERVER ENABLED
+    MONGO_PORT: 27017                            # REMOTE SERVER ENABLED
     MONGO_USERNAME: user
     MONGO_PASSWORD: password
-    MONGO_PORT: 27017                            # REMOTE SERVER ENABLED
     MONGO_DBNAME: test 
     MONGO_DIR: /mnt/backup/mongodump             # THIS FOLDER CONTAINS THE FILE NAME IN THE NAME OF *.gz
 
