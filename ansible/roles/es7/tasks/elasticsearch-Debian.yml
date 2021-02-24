@@ -33,7 +33,13 @@
   apt:
     name: elasticsearch
     state: present
- 
+
+- name: start the elastic-search
+  service:
+    name: elasticsearch
+    state: started
+    enabled: true
+    
 - name: Debian - Ensure elasticsearch is installed
   become: yes
   apt: name=elasticsearch{% if es_version is defined and es_version != "" %}={{ es_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if es_apt_key else 'yes' }} cache_valid_time=86400
