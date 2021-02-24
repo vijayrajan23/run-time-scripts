@@ -9,6 +9,7 @@
     - "{{pid_dir}}"
     - "{{log_dir}}"
     - "{{conf_dir}}"
+    - /etc/elasticsearch/elasticsearch
 
 - name: Create Data Directories
   become: yes
