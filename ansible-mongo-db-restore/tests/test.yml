@@ -1,5 +1,4 @@
 ---
-- hosts: localhost
-  connection: local
+- hosts: servername
   roles:
     - role: ansible-mongo-db-restore
