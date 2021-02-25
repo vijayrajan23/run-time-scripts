@@ -33,14 +33,11 @@
   when: es_version_lock
 
 
-- name: Run the equivalent of "apt-get update" as a separate step
-  apt:
-    update_cache: yes
-
 - name: install the elastic-search
   apt:
     name: "elasticsearch={{ es_version }}"
     state: present
+    update_cache: yes
     
 - name: Debian - Ensure elasticsearch is installed
   become: yes
