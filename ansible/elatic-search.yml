@@ -1,4 +1,4 @@
 ---
-- hosts: 3.238.85.63 
+- hosts: all
   roles:
   - role: es7
