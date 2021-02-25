@@ -32,16 +32,15 @@
   include: elasticsearch-Debian-version-lock.yml
   when: es_version_lock
 
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
 - name: install the elastic-search
   apt:
     name: "elasticsearch={{ es_version }}"
     state: present
-
-# - name: start the elastic-search
-#   service:
-#     name: elasticsearch
-#     state: started
-#     enabled: yes
     
 - name: Debian - Ensure elasticsearch is installed
   become: yes
