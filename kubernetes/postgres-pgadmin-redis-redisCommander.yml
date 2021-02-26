@@ -1,0 +1,167 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgress-conn
+data:
+  POSTGRES_SERVER: db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: tspring_test
+  DROP_AFTER_TESTS: "True"
+  SQLALCHEMY_ECHO: "False"
+  PGADMIN_DEFAULT_PASSWORD: admin
+  PGADMIN_DEFAULT_EMAIL: "admin@example.com"
+  redis_type: redis
+  redis_host: redis
+  redis_port: "6379"
+  redis_db: "1"
+  SMTP_TLS: "True"
+  SMTP_PORT: "587"
+  EMAILS_FROM_EMAIL: "info@tspring.co"
+  PROJECT_NAME: tspring_Backend
+  SMTP_HOST: "values"
+  SMTP_USER: "values"
+  SMTP_PASSWORD: "values"
+  SENTRY_DSN: "values"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+              name: postgress-conf            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: postgress-conf            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: pgadmin
+  ports:
+    - port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - configMapRef:
+                name: postgress-conf            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+spec:
+  type: ClusterIP
+  selector:
+    app: redis
+  ports:
+    - port: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-commander
+spec:
+  selector:
+    matchLabels:
+      app: redis-commander
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-commander
+    spec:
+      containers:
+        - name: redis-commander
+          image: rediscommander/redis-commander:latest
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8081
+          env:
+          - name: REDIS_HOSTS
+            value: "local:redis-service:6379"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-commander-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: redis-commander
+  ports:
+    - port: 80
+      tagrgetPort: 8081
