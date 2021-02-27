@@ -69,7 +69,7 @@
     
 - name: Activate python environment and install required pip modules
   Ashell: |
-    'sudo -u  {{ USER }} bash -c 'source {{ WORKDIR }}/spark_venv/bin/activate && pip install -r {{ WORKDIR }}/source/requirements.txt'"
+    "sudo -u  {{ USER }} bash -c 'source {{ WORKDIR }}/spark_venv/bin/activate && pip install -r {{ WORKDIR }}/source/requirements.txt'"
 
 - name: create the directory
   file:
