@@ -80,7 +80,7 @@
 
 - name: Creating a faust service shell file in executable mode
   copy:
-    dest: $WORKDIR/faust_as_service/faust.sh
+    dest: "{{ WORKDIR }}/faust_as_service/faust.sh"
     owner: "{{ USER }}"
     group: "{{ USER }}"
     mode: 0777
