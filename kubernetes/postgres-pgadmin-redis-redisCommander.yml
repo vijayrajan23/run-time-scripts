@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgress-conn
+  name: postgress-conf
 data:
   POSTGRES_SERVER: db
   POSTGRES_USER: postgres
