@@ -47,12 +47,12 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-              name: postgress-conf            
+                name: postgress-conf
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pgadmin-service
+  name: postgres-service
 spec:
   type: ClusterIP
   selector:
@@ -82,7 +82,7 @@ spec:
             - containerPort: 80
           envFrom:
             - configMapRef:
-                name: postgress-conf            
+                name: postgress-conf
 ---
 apiVersion: v1
 kind: Service
@@ -117,7 +117,7 @@ spec:
             - containerPort: 6379
           envFrom:
             - configMapRef:
-                name: postgress-conf            
+                name: postgress-conf
 ---
 apiVersion: v1
 kind: Service
@@ -164,4 +164,4 @@ spec:
     app: redis-commander
   ports:
     - port: 80
-      tagrgetPort: 8081
+      targetPort: 8081
