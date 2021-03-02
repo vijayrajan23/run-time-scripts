@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  vars: 
+    TERRAFORM_VERSION: "0.11.7"
+  tasks:
+  - unarchive:
+      src: "https://releases.hashicorp.com/terraform/{{ TERRAFORM_VERSION }}/terraform_{{ TERRAFORM_VERSION }}_linux_amd64.zip"
+      dest: /usr/bin
+      remote_src: True
