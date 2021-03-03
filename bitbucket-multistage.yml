@@ -26,3 +26,7 @@ pipelines:
             - sudo apt update
             - sudo apt install sshpass rsync openssh-server -y
 
+
+# https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/
+# https://bitbucket.org/blog/build-trust-in-your-deployment-workflow-with-deployment-permissions
+# https://support.atlassian.com/bitbucket-cloud/docs/pipeline-triggers/
