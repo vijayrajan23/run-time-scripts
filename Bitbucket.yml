@@ -1,0 +1,119 @@
+---
+image: atlassian/default-image:2
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: "Build and Test"
+            script: 
+              - echo "Your build and test goes here..."
+        - step:
+            name: "Lint"
+            script:
+              - echo "Your linting goes here..."
+        - step:
+            name: "Security scan"
+            script:
+              - echo "Your security scan goes here..."
+
+    - step:
+        name: "Deployment to Staging"
+        deployment: staging
+        script:
+          - echo "Your deployment to staging script goes here..."
+    - step:
+        name: "Deployment to Production"
+        deployment: production
+        trigger: "manual"
+        script:
+          - echo "Your deployment to production script goes here..."
+
+---
+pipelines:
+  custom:
+    custom-name-and-region: #name of this pipeline
+      - variables:          #list variable names under here
+          - name: Username
+          - name: Region
+      - step: 
+          script:
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
+            - echo "and they are in $Region"
+            - sshpass  -V
+            - rsync --version
+---
+pipelines:
+  default:
+    - step: 
+        script:
+          - sudo apt update
+          - sudo apt install sshpass rsync openssh-server -y
+          - echo "and they are in $Region"
+          - sshpass  -V
+          - rsync --version
+  branches:
+    master:
+      - step: 
+          script:
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
+            - echo "and they are in $Region"
+            - sshpass  -V
+            - rsync --version
+    feature/*:
+      - step: 
+          script:
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
+            - echo "and they are in $Region"
+            - sshpass  -V
+            - rsync --version
+
+---
+pipelines:
+  default:
+    - step:
+        script:
+          - echo "This script runs on all branches that don't have any specific pipeline assigned in 'branches'."
+  branches:
+    master:
+      - step:
+          script:
+            - echo "This script runs only on commit to the master branch."
+    test/*:
+      - step:
+          image: openjdk:8
+          script:
+            - echo "This script runs only on commit to branches with names that match the feature/* pattern."
+
+---
+pipelines:
+  default:
+    - step: 
+        script:
+          - echo "Development environment deployment stage"
+          - sudo apt update
+          - sudo apt install sshpass rsync openssh-server -y
+          - echo "and they are in $Region"
+          - sshpass  -V
+          - rsync --version
+  branches:
+    master:
+      - step:
+          name: Production
+          deployment: Production
+          script:
+            - echo $TEST
+            - echo "Production environment deployment stage"
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
+
+    feature/*:
+      - step:
+          name: Test
+          deployment: Test
+          script:
+            - echo "Test environment deployment stage"
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
