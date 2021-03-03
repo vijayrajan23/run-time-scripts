@@ -6,7 +6,7 @@ pipelines:
           - echo "Development environment deployment stage"
           - sudo apt update
           - sudo apt install sshpass rsync openssh-server -y
-          - rsync -avzu  -e "ssh  -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
+          - rsync -avzu -e "ssh -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
 
   branches:
     master:
@@ -17,7 +17,7 @@ pipelines:
             - echo "production environment deployment stage"
             - sudo apt update
             - sudo apt install sshpass rsync openssh-server -y
-            - rsync -avzu  -e "ssh  -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
+            - rsync -avzu -e "ssh -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
 
     test:
       - step:
@@ -27,7 +27,7 @@ pipelines:
             - echo "test environment deployment stage"
             - sudo apt update
             - sudo apt install sshpass rsync openssh-server -y
-            - rsync -avzu  -e "ssh  -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
+            - rsync -avzu -e "ssh -i automation_key" * $USERNAME@$IPADDRESS:/srv/apache/public_html_jenkins/www_new/
 
 # https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/
 # https://bitbucket.org/blog/build-trust-in-your-deployment-workflow-with-deployment-permissions
