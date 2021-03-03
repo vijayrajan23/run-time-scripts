@@ -1,7 +1,7 @@
 pipelines:
   default:
     - step:
-        name: production environment
+        name: development environment
         script:
           - echo "Development environment deployment stage"
           - sudo apt update
@@ -17,7 +17,7 @@ pipelines:
             - sudo apt update
             - sudo apt install sshpass rsync openssh-server -y
 
-    feature/*:
+    test:
       - step:
           name: test environment
           deployment: Test
