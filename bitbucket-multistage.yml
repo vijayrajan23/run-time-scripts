@@ -1,0 +1,29 @@
+pipelines:
+  default:
+    - step: 
+        script:
+          - echo "Development environment deployment stage"
+          - sudo apt update
+          - sudo apt install sshpass rsync openssh-server -y
+          - echo "and they are in $Region"
+          - sshpass  -V
+          - rsync --version
+  branches:
+    master:
+      - step:
+          name: Production
+          deployment: Production
+          script:
+            - echo $TEST
+            - echo "Production environment deployment stage"
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
+
+    feature/*:
+      - step:
+          name: Test
+          deployment: Test
+          script:
+            - echo "Test environment deployment stage"
+            - sudo apt update
+            - sudo apt install sshpass rsync openssh-server -y
