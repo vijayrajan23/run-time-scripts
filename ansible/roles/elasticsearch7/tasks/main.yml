@@ -53,7 +53,7 @@
 # Add ES Plugin credentials for backups
 - name: Add ES Backup variables to elasticsearch to have backups enabled
   lineinfile:
-    path: '{{conf_dir}}/elasticsearch.yml'
+    path: '{{ es_conf_dir }}/elasticsearch.yml'
     line: 'cloud.azure.storage.default.{{item.key}}: {{item.value}}'
     regexp: "cloud.azure.storage.default.{{ item.key }}.*"
   with_items:
