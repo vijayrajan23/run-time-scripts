@@ -7,5 +7,6 @@
     var: plugin_output
 
 - name: Install plugin
-  shell: /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
+  shell: |
+    echo 'y' | /usr/share/elasticsearch/bin/elasticsearch-plugin install repository-azure
   when: plugin_output.stdout != "repository-azure"
