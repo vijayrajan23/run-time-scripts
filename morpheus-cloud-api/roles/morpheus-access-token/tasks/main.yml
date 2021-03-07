@@ -3,12 +3,8 @@
 - name: Create the instance
   uri:
     url: "{{ MORPHEUS_API_URL }}/oauth/token?grant_type=password&scope=write&client_id=morph-api"
-    # url: "{{ MORPHEUS_API_URL }}/oauth/token"
     method: POST
     body:
-      # grant_type: "password"
-      # scope: "write"
-      # client_id: "morph-api"
       username: "{{ MORPHEUS_API_USERNAME }}"
       password: "{{ MORPHEUS_API_PASSWORD }}"
     body_format: form-urlencoded
