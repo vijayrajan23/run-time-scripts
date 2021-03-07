@@ -5,7 +5,7 @@
     headers:
         Authorization: "BEARER {{ morpheus_api_token }}"
     method: POST
-    body: |
+    body:
       "{{ lookup('template', 'create-instance.j2') | to_yaml }}"
     body_format: json
     force_basic_auth: yes
