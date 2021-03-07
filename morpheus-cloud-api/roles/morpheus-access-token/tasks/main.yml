@@ -1,0 +1,26 @@
+---
+# tasks file for morpheus-access-token
+- name: Create the instance
+  uri:
+    url: "{{ MORPHEUS_API_URL }}/oauth/token?grant_type=password&scope=write&client_id=morph-api"
+    method: POST
+    body: |
+      username: "{{ MORPHEUS_API_USERNAME }}"
+      password: "{{ MORPHEUS_API_PASSWORD }}"
+    body_format: json
+    force_basic_auth: yes
+    return_content: true
+    validate_certs: false
+  register: create_morpheus_access_token
+  when:
+  - MORPHEUS_API_USERNAME
+  - MORPHEUS_API_PASSWORD
+  - MORPHEUS_API_URL
+
+- name: debug the access token
+  debug:
+    msg: "{{ create_morpheus_access_token }}"
+  when:
+  - MORPHEUS_API_USERNAME
+  - MORPHEUS_API_PASSWORD
+  - MORPHEUS_API_URL

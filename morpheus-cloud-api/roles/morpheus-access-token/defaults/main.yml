@@ -1,0 +1,5 @@
+---
+# defaults file for morpheus-access-token
+MORPHEUS_API_USERNAME: "pass the morpheus username"
+MORPHEUS_API_PASSWORD: "pass the morpheus password"
+MORPHEUS_API_URL: "pass the api url"
