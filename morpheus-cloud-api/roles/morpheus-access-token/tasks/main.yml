@@ -7,7 +7,7 @@
     body: |
       username: "{{ MORPHEUS_API_USERNAME }}"
       password: "{{ MORPHEUS_API_PASSWORD }}"
-    body_format: raw
+    body_format: form-urlencoded
     force_basic_auth: yes
     return_content: true
     validate_certs: false
