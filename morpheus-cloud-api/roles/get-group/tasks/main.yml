@@ -1,8 +1,8 @@
 ---
 # tasks file for get-group
-- name: Create the instance type
+- name: get the group id
   uri:
-    url: '{{ morpheus_appliance_url }}/api/groups'
+    url: "{{ morpheus_appliance_url }}/api/groups"
     headers:
         Authorization: "BEARER {{ morpheus_api_token }}"
     method: GET
@@ -11,5 +11,4 @@
     validate_certs: false
   register: create_morpheus_instance_type
   when:
-    - INSTANCE_TYPE_NAME is defined
     - morpheus_api_token is defined

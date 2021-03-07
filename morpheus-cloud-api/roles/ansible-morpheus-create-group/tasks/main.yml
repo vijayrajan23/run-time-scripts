@@ -2,15 +2,11 @@
 # tasks file for ansible-morpheus-create-group
 - name: Create the instance
   uri:
-    url: '{{ morpheus_appliance_url }}/api/groups'
+    url: "{{ morpheus_appliance_url }}/api/groups"
     headers:
-        Authorization: "BEARER {{ morpheus_api_token }}"
+      Authorization: "BEARER {{ morpheus_api_token }}"
     method: POST
-    body:
-      group:
-        name: "{{ GROUPNAME }}"
-        code: "{{ CODE | default(omit) }}"
-        location: "{{ LOCATION | default(omit)  }}"
+    body: "{{ lookup('template', 'create-group.j2') | to_yaml }}"
     body_format: json
     force_basic_auth: yes
     return_content: true
