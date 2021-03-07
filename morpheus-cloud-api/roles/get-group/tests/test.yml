@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - role: get-group
+      morpheus_appliance_url: "{{ }}"
+      morpheus_api_token: "{{ }}"
