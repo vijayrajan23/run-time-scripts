@@ -1,0 +1,19 @@
+---
+# tasks file for ansible-morpheus-create-instance-type
+
+- name: Create the instance type
+  uri:
+    url: '{{ morpheus_appliance_url }}/api/library/instance-types'
+    headers:
+        Authorization: "BEARER {{ morpheus_api_token }}"
+    method: POST
+    body: |
+      "{{ lookup('template', 'create-instance-type.j2') | to_yaml }}"
+    body_format: json
+    force_basic_auth: yes
+    return_content: true
+    validate_certs: false
+  register: create_morpheus_instance_type
+  when:
+    - INSTANCE_TYPE_NAME is defined
+    - morpheus_api_token is defined

@@ -1,0 +1,50 @@
+---
+# defaults file for ansible-morpheus-create-instance
+
+# The Cloud ID to provision the instance onto
+ZONEID: 6
+
+# Instance name
+INSTANCE_NAME: "web-server"
+
+# The Group ID to provision the instance into 
+INSTANCE_GROUP_ID: 3
+
+# The layout id for the instance type that you want to provision
+INSTANCE_LAYOUT_ID: 105
+
+# The id for the memory and storage option pre-configured within Morpheus.
+INSTANCE_PLAN: 75
+
+# INSTANCE OS type
+INSTANCE_TYPE: "Ubuntu"
+
+# INSTANCE USERNAME
+INSTANCE_USERNAME: "admin"
+
+# INSTANCE PASSWORD
+INSTANCE_PASSWORD: "Password@123"
+
+# INSTANCE ROOT VOLUME DETAILS
+ROOT_VOLUME_SIZE: 10 
+
+# INSTANCE ADDITIONAL VOLUME DETAILS
+ADDVOLUME: # diskName : diskSize
+  disk-1: 5
+
+# OS ENVIRONMENT VARIABLE 
+OSENV: 
+  name: value
+  EN: eng
+
+# Metadata tags - Instance tags
+TAGS:
+  environment: development
+  project: duckduckgo
+  location: east-us
+
+# LABEL SECTION 
+LABELS:
+  - green
+  - yellow
+

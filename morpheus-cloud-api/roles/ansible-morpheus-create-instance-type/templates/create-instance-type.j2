@@ -1,0 +1,19 @@
+instanceType:
+  name: {{ INSTANCE_TYPE_NAME }}
+  code: {{ INSTANCE_TYPE_CODE }}
+  description: {{ INSTANCE_TYPE_DESCRIPTION }}
+  category: {{ INSTANCE_TYPE_CATEGORY }}
+  visibility: {{ INSTANCE_TYPE_VISIBILITY | default('private')  }}
+  environmentPrefix: {{ INSTANCE_TYPE_NAME }}_
+  hasSettings: {{ INSTANCE_TYPE_VISIBILITY | default(true)  }}
+  hasAutoScale: {{ INSTANCE_TYPE_VISIBILITY | default(true)  }} 
+  hasDeployment: {{ INSTANCE_TYPE_VISIBILITY | default(true)  }}
+  optionTypes:
+     - 100
+{% if INSTANCE_TYPE_ENVIRONMENT_VARIABLE != '' %}
+  environmentVariables:
+    - resource: instance-type    
+{% for key, value in INSTANCE_TYPE_ENVIRONMENT_VARIABLE.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
+{% endif %}

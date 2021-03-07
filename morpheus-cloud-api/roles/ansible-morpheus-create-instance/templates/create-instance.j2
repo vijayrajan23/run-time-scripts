@@ -1,0 +1,62 @@
+zoneId: {{ ZONEID }}
+instance:
+  name: {{ INSTANCE_NAME }}
+  site:
+    id: {{ INSTANCE_GROUP_ID }}
+  instanceType:
+    code: {{ INSTANCE_TYPE }}
+  layout:
+    id: {{ INSTANCE_LAYOUT_ID }}
+  plan:
+    id: {{ INSTANCE_PLAN }}
+volumes:
+- id: -1
+  rootVolume: true
+  name: root
+  size: {{ ROOT_VOLUME_SIZE }}
+  sizeId:
+  storageType: 1
+  datastoreId: autoCluster
+{% if ADDVOLUME != '' %}
+{% for key, value in ADDVOLUME.items() %}
+- id: -1
+  rootVolume: false
+  name: {{ key }}
+  size: {{ value }}
+  sizeId:
+  storageType: 1
+  datastoreId: auto
+{% endfor %}
+{% endif %}
+networkInterfaces:
+- network:
+    id: 5
+  networkInterfaceTypeId: 4
+config:
+  publicKeyId: 14
+  vmwareResourcePoolId: resgroup-56
+  hostId:
+  vmwareUsr: {{ INSTANCE_USERNAME }}
+  vmwarePwd: {{ INSTANCE_PASSWORD }}
+  vmwareDomainName:
+  vmwareCustomSpec:
+{% if OSENV != '' %}
+evars:
+{% for key, value in OSENV.items() %}
+- name: {{ key }}
+  value: {{ value }}
+{% endfor %}
+{% endif %}
+{% if LABELS != '' %}
+labels:
+{% for label in LABELS %}
+- {{ label }}
+{% endfor %}
+{% endif %}
+{% if TAGS != '' %}
+tags:
+{% for key, value in TAGS.items() %}
+- name: {{ key }}
+  value: {{ value }}
+{% endfor %}
+{% endif %}

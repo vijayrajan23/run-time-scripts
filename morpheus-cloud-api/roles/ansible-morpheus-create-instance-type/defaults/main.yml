@@ -1,0 +1,23 @@
+---
+# defaults file for ansible-morpheus-create-instance-type
+
+# Instance type name
+INSTANCE_TYPE_NAME: "Ubuntu"
+
+# Instance type code
+INSTANCE_TYPE_CODE: 52
+
+# category
+INSTANCE_TYPE_CATEGORY: web
+
+INSTANCE_TYPE_DESCRIPTION: "description text"
+
+# Visibility. Default is private.
+INSTANCE_TYPE_VISIBILITY: private 
+
+INSTANCE_TYPE_ENVIRONMENT_VARIABLE:
+  key: "something"
+
+INSTANCE_TYPE_HAS_SETTING: true 
+INSTANCE_TYPE_HAS_AUTO_SCALE: true
+INSTANCE_TYPE_HAS_DEPLOYMENT: true

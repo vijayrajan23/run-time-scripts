@@ -1,0 +1,1 @@
+ansible-morpheus-create-instance-type
