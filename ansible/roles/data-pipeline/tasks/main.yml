@@ -68,8 +68,8 @@
     group: "{{ USER }}"
     
 - name: Activate python environment and install required pip modules
-  become_user: "{{ USER }}"
-  shell: "bash -c 'source {{ WORKDIR }}/spark_venv/bin/activate && pip install -r {{ WORKDIR }}/source/requirements.txt'"
+  shell: |
+    "sudo -u {{ USER }} bash -c 'source {{ WORKDIR }}/spark_venv/bin/activate && pip install -r {{ WORKDIR }}/source/requirements.txt'"
 
 - name: create the directory
   file:
@@ -182,5 +182,5 @@
     - faust_survey_evidence.service
 
 - name: CREATE THE CRON JOB
-  become_user: "{{ USER }}"
-  shell:  "bash -c '(crontab -l 2>/dev/null; echo '30 18 * * * . /opt/sparkjobs/source/spark_batch_jobs_run.sh >> /tmp/batch.log') | crontab -'"
+  shell:  |
+    "sudo -u {{ USER }} bash -c '(crontab -l 2>/dev/null; echo '30 18 * * * . /opt/sparkjobs/source/spark_batch_jobs_run.sh >> /tmp/batch.log') | crontab -'"
