@@ -53,12 +53,14 @@
     group: "{{ USER }}"
 
 - name: Change user and create working directory under opt dir and install python virtual environment
-  shell: |
-    "sudo -u {{ USER }} bash -c 'cd {{ WORKDIR }} && virtualenv --python=python3.6 spark_venv'"
+  shell: "cd {{ WORKDIR }} && virtualenv --python=python3.6 spark_venv"
+  become: yes
+  become_user: "{{ USER }}"
 
 - name: Create necessary logs folders for pipeline
   become_user: "{{ USER }}"
-  shell: "bash -c 'cd {{ WORKDIR }} && mkdir -p source logs/assessment/reports logs/observation/status logs/observation_evidence logs/project logs/survey logs/survey_evidence'"
+  become: yes
+  shell: "cd {{ WORKDIR }} && mkdir -p source logs/assessment/reports logs/observation/status logs/observation_evidence logs/project logs/survey logs/survey_evidence"
 
 - name: copying file with owner and permissions
   copy:
@@ -67,9 +69,11 @@
     owner: "{{ USER }}"
     group: "{{ USER }}"
     
-- name: Activate python environment and install required pip modules
-  shell: |
-    "sudo -u {{ USER }} bash -c 'source {{ WORKDIR }}/spark_venv/bin/activate && pip install -r {{ WORKDIR }}/source/requirements.txt'"
+- name: Initiate virtualenv
+  pip: virtualenv="{{WORKDIR }}" 
+       virtualenv_python=python3.6
+       requirements="{{ WORKDIR }}/source/requirements.txt"
+
 
 - name: create the directory
   file:
@@ -181,6 +185,9 @@
     - faust_survey.service 
     - faust_survey_evidence.service
 
-- name: CREATE THE CRON JOB
-  shell:  |
-    "sudo -u {{ USER }} bash -c '(crontab -l 2>/dev/null; echo '30 18 * * * . /opt/sparkjobs/source/spark_batch_jobs_run.sh >> /tmp/batch.log') | crontab -'"
+- name: CREATE THE CRON
+  shell: |
+    crontab -l 2>/dev/null
+    echo '30 18 * * * . /opt/sparkjobs/source/spark_batch_jobs_run.sh >> /tmp/batch.log' | crontab -
+  become_user: "{{ USER }}"
+  become: yes
