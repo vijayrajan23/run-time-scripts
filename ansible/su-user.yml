@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  tasks:
+  - name: excute the command use another user
+    command: whoami
+    become: yes
+    become_user: jj
+    register: _results
+  - debug:
+      msg: "{{ _results }}"
