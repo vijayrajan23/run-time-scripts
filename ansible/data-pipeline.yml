@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  become: yes
   roles:
     - role: data-pipeline
-      become: yes
+      BASEPATH: "/home/ubuntu/files"
