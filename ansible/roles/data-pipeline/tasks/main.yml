@@ -52,21 +52,15 @@
     owner: "{{ USER }}"
     group: "{{ USER }}"
 
-# - name: Change user and create working directory under opt dir and install python virtual environment
-#   shell: "cd {{ WORKDIR }} && virtualenv --python=python3.6 spark_venv"
-#   become: yes
-#   become_user: "{{ USER }}"
+- name: Change user and create working directory under opt dir and install python virtual environment
+  shell: "cd {{ WORKDIR }} && virtualenv --python=python3.6 spark_venv"
+  become: yes
+  become_user: "{{ USER }}"
 
 - name: Create necessary logs folders for pipeline
   become_user: "{{ USER }}"
   become: yes
   shell: "cd {{ WORKDIR }} && mkdir -p source logs/assessment/reports logs/observation/status logs/observation_evidence logs/project logs/survey logs/survey_evidence"
-
-- name: Initiate virtualenv
-  pip: 
-    virtualenv: "{{WORKDIR }}" 
-    virtualenv_python: python3.6
-    requirements: "{{ WORKDIR }}/source/requirements.txt"
     
 - name: copying file with owner and permissions
   copy:
@@ -74,6 +68,13 @@
     dest: "{{ WORKDIR }}"
     owner: "{{ USER }}"
     group: "{{ USER }}"
+    remote_src: yes
+
+- name: Initiate virtualenv
+  pip: 
+    virtualenv: "{{WORKDIR }}" 
+    virtualenv_python: python3.6
+    requirements: "{{ WORKDIR }}/source/requirements.txt"
 
 - name: create the directory
   file:
