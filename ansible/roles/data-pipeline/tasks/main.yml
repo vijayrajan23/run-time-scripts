@@ -7,17 +7,18 @@
     home: "/home/{{ USER }}"
     shell: /bin/bash
 
-- name: UPDATE THE REPOS
+# update the repo while installing the new machine
+- name: update the repos - sudo apt update
   apt:
     update_cache: yes
 
-- name: INSTALL THE PACKGES
+# items remove its hardcoded. This is needed
+- name: Install the software-properties-common package 
   apt:
-    name: "{{ item }}"
+    name: software-properties-common
     state: present
-  loop:
-    - software-properties-common
 
+# will enable all repositories
 - name: ADD THE REPOSITORY
   shell: sudo apt-add-repository universe
 
@@ -33,11 +34,11 @@
     - zip 
     - unzip
 
-- name: Unarchive a file that is already on the remote machine
-  unarchive:
-    src: "{{ BASEPATH }}/source.zip"
-    dest: "{{ BASEPATH }}"
-    remote_src: yes
+# - name: Unarchive a file that is already on the remote machine
+#   unarchive:
+#     src: "{{ BASEPATH }}/source.zip"
+#     dest: "{{ BASEPATH }}"
+#     remote_src: yes
 
 - name: CHANGE THE OWNERSHIP FOR THIS {{ BASEPATH }} DIRECTORY
   file:
