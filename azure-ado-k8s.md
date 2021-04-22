@@ -72,8 +72,6 @@ pool:
         tags: $(Build.BuildNumber)
         arguments: '--no-cache'
 
-
-
     - script: |
         docker run -d --name $(imageName)  $(repositoryName)/$(imageName):$(Build.BuildNumber)
         CID=$(docker ps -q -f status=running -f name=$(imageName))
@@ -125,4 +123,11 @@ pool:
         artifact: drop
       displayName: Publish Pipeline Artifact
       condition: contains(variables['build.sourceBranch'], 'refs/heads/master')
+      
+    - task: KubernetesManifest@0
+      displayName: kubernetes-deploy
+      inputs:
+        kubernetesServiceConnection: dev-aks-ado-service-account
+        namespace: nifi-dev
+        manifests: deployment/file.yml
 ```
