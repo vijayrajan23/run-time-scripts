@@ -30,7 +30,4 @@ azure-pipelines.yml
           namespace: nifi-dev
           manifests: deployment/file.yml
 
-
-
-
 ```
