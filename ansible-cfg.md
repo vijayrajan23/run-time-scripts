@@ -13,9 +13,9 @@ ansible.cfg
 ------
 
     [defaults]
-    system_warnings = False
+    system_warnings      = False
     deprecation_warnings = false
-    inventory      = hosts
+    inventory            = hosts
 
 ------
 
