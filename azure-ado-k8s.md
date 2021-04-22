@@ -10,6 +10,7 @@
 
 
 azure-pipelines.yml
+-------
 
 ```yml
     trigger: none
@@ -29,5 +30,5 @@ azure-pipelines.yml
           kubernetesServiceConnection: dev-aks-ado-service-account
           namespace: nifi-dev
           manifests: deployment/file.yml
-
 ```
+-------
