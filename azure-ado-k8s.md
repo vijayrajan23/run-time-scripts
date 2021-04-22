@@ -13,22 +13,22 @@ azure-pipelines.yml
 -------
 
 ```yml
-    trigger: none
+trigger: none
 
-    resources:
-    - repo: self
+resources:
+- repo: self
 
-    pool: 
-      name: miga
-      demands:  
-      - Agent.ComputerName -equals access-server
+pool: 
+  name: miga
+  demands:  
+  - Agent.ComputerName -equals access-server
 
-    steps:
-      - task: KubernetesManifest@0
-        displayName: kubernetes-deploy
-        inputs:
-          kubernetesServiceConnection: dev-aks-ado-service-account
-          namespace: nifi-dev
-          manifests: deployment/file.yml
+steps:
+  - task: KubernetesManifest@0
+    displayName: kubernetes-deploy
+    inputs:
+      kubernetesServiceConnection: dev-aks-ado-service-account
+      namespace: nifi-dev
+      manifests: deployment/file.yml
 ```
 -------
