@@ -1,3 +1,5 @@
+senario: 1
+
 ```sh
 
 # Enable the repository
@@ -51,8 +53,10 @@ sudo systemctl status jenkins
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 
-
-
-
-
 ```
+
+
+
+
+senario: 2
+
