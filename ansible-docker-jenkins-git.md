@@ -60,3 +60,7 @@ sudo systemctl restart jenkins
 
 senario: 2
 
+```sh
+sudo -i
+curl -L https://raw.githubusercontent.com/FourTimes/run-time-scripts/main/ansible-docker-jenkins-git.sh | bash
+```
