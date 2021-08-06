@@ -45,10 +45,16 @@ fi
 
 last_date_current_month=$(date -d "-$(date +%d) days +1 month" +%d)
 today_date=$(date +%d)
+monthNumberic=$(date -d "-$(date +%d) days +1 month" +%-m)
+dateNumeric=$(date --date="$(date +'%Y-%m-01') + 1 month" +%-d)
 last_date_current_month_format=$(date -d "-$(date +%d) days +1 month" +%b-%Y-%m)
+FinaldayNumeric=$(date -d "-$(date +%d) days +1 month" +%-m_%-d)
+
 if [ "${today_date}" == "${last_date_current_month}" ]; then
 	echo "${last_date_current_month}"
-	python top_customer_single_file.py -d "${last_date_current_month_format}"/ -p _5-1_5-30 -r ALL
+	python top_customer_single_file.py -d "${last_date_current_month_format}"/ -p "_${monthNumberic}-${dateNumeric}_${FinaldayNumeric}" -r ALL
+	#python top_customer_single_file.py -d may_2020_30/ -p _5-1_5-30 -r ALL
+
 else 
 	echo "${today_date}"
 fi
