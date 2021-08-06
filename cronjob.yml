@@ -1,4 +1,14 @@
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/project: mentor
+    app.kubernetes.io/usage: configuration
+  name: sec
+data:
+  LDNA_REGION_KEY: XXXXXXXXXXXX=
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -11,9 +21,10 @@ spec:
         spec:
           containers:
           - name: update-fingerprints
-            image: python:3.6.2-slim
-            command: ["/bin/bash"]
-            args: ["-c", "python /client/test.py"]
+            image: imageName
+            envFrom:
+            - secretRef:
+                name: sec
             volumeMounts:
             - name: application-code
               mountPath: /where/ever
