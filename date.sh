@@ -45,9 +45,10 @@ fi
 
 last_date_current_month=$(date -d "-$(date +%d) days +1 month" +%d)
 today_date=$(date +%d)
-
+last_date_current_month_format=$(date -d "-$(date +%d) days +1 month" +%b-%Y-%m)
 if [ "${today_date}" == "${last_date_current_month}" ]; then
 	echo "${last_date_current_month}"
+	python top_customer_single_file.py -d "${last_date_current_month_format}"/ -p _5-1_5-30 -r ALL
 else 
 	echo "${today_date}"
 fi
