@@ -1,0 +1,24 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: update-db
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: update-fingerprints
+            image: python:3.6.2-slim
+            command: ["/bin/bash"]
+            args: ["-c", "python /client/test.py"]
+            volumeMounts:
+            - name: application-code
+              mountPath: /where/ever
+          restartPolicy: OnFailure
+          volumes:
+          - name: application-code
+            persistentVolumeClaim:
+              claimName: application-code-pv-claim
