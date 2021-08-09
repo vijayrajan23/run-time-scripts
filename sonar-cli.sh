@@ -10,11 +10,11 @@ function print_usage() {
 echo "\
 Usage: sonar-cli [OPTIONS]
 Starts a sonar-cli with the based on the supplied options.
-    --platform  Pass the platform
-    --host      Pass the host name
-    --key       Pass the project key
-    --login     Pass the project login
-    --source    Pass the project source path
+    --platform  Mandatory:* Pass the platform.
+    --host      Mandatory:* Pass the host name
+    --key       Mandatory:* Pass the project key
+    --login     Mandatory:* Pass the project login
+    --source    Mandatory:* Pass the project source path
 "
 }
 
