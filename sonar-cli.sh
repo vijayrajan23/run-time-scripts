@@ -66,16 +66,21 @@ unzip sonar-scanner-cli-4.2.0.1873-linux.zip && rm -rf sonar-scanner-cli-4.2.0.1
 mv sonar-scanner-4.2.0.1873-linux sonar-scanner
 PATH=$PATH:sonar-scanner/bin
 
-if [ "$PLATFORM" = "node"  ] || [ "$PLATFORM" = "python" ] || [ "$PLATFORM" = "java" ]; then
+if [ "$PLATFORM" = "node"  ] || [ "$PLATFORM" = "python" ]; then
     echo "code scan platform is: $PLATFORM" 
     sonar-scanner -Dsonar.projectKey=$PROJECT_KEY -Dsonar.sources=$SOURCE  -Dsonar.host.url=$SONAR_HOST  -Dsonar.login=$PROJECT_LOGIN
-#     ./gradlew sonarqube  -Dsonar.projectKey=$PROJECT_KEY -Dsonar.host.url=$SONAR_HOST  -Dsonar.login=$PROJECT_LOGIN
-else
-    echo "....Please provide the valid platform like python | java | node"
+fi
+
+if [ "$PLATFORM" = "java" ]; then
+    gradle=$(find . -iname build.gradle)
+    if [ "$gradle" != '' ]; then
+        echo "code scan platform is: $PLATFORM" 
+        ./gradlew sonarqube  -Dsonar.projectKey=$PROJECT_KEY -Dsonar.host.url=$SONAR_HOST  -Dsonar.login=$PROJECT_LOGIN
+    fi
 fi
 
 
 
-
 # usage: 
-# bash sonar-cli.sh  --platform=node --host=http://10.0.0.0 --key=dddddd --login=admin --source=.
+# bash sonar-cli.sh  --platform=java --host=http://10.0.0.0 --key=dddddd --login=admin --source=.
+
