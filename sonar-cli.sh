@@ -69,6 +69,8 @@ PATH=$PATH:sonar-scanner/bin
 if [ "$PLATFORM" = "node"  ] || [ "$PLATFORM" = "python" ] || [ "$PLATFORM" = "java" ]; then
     echo "code scan platform is: $PLATFORM" 
     sonar-scanner -Dsonar.projectKey=$PROJECT_KEY -Dsonar.sources=$SOURCE  -Dsonar.host.url=$SONAR_HOST  -Dsonar.login=$PROJECT_LOGIN
+else
+    echo "....Please provide the valid platform like python | java | node"
 fi
 
 
