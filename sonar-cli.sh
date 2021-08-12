@@ -66,7 +66,7 @@ unzip sonar-scanner-cli-4.2.0.1873-linux.zip && rm -rf sonar-scanner-cli-4.2.0.1
 mv sonar-scanner-4.2.0.1873-linux sonar-scanner
 PATH=$PATH:sonar-scanner/bin
 
-if [ "$PLATFORM" = "node"  ] || [ "$PLATFORM" = "python" ]; then
+if [ "$PLATFORM" = "node"  ] || [ "$PLATFORM" = "python" ] || [ "$PLATFORM" = "java" ]; then
     echo "code scan platform is: $PLATFORM" 
     sonar-scanner -Dsonar.projectKey=$PROJECT_KEY -Dsonar.sources=$SOURCE  -Dsonar.host.url=$SONAR_HOST  -Dsonar.login=$PROJECT_LOGIN
 fi
