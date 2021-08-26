@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+function print_usage() {
+echo "\
+Usage: sonarqube [OPTIONS]
+Starts a sonar-cli with the based on the supplied options.
+    --URL      Mandatory:* Pass the URL
+"
+}
+
 optspec=":hv-:"
 while getopts "$optspec" optchar; do
 
