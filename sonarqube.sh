@@ -36,3 +36,5 @@ else
     echo "Pass the valid params"        
 fi
 
+# Example
+# bash sonarqube.sh --URL=http://localhost
