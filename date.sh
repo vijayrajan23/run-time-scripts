@@ -58,3 +58,11 @@ if [ "${today_date}" == "${last_date_current_month}" ]; then
 else 
 	echo "${today_date}"
 fi
+
+
+
+from_date=$(date -d "yesterday" '+%Y-%m-%d_00_00_00')
+end_date=$(date  '+%Y-%m-%d_00_00_00')
+dir_struc=$(date  '+%Y-%b-%d')
+
+ibmcloud cos download --bucket logdna-cron-data --region us-geo --key "${dir_struc}"/us-south_"${from_date}"_"${end_date}"_count.txt us-south_"${from_date}"_"${end_date}"_count.txt && echo "$(date -u '+%Y-%m-%d %H:%M:%S'): Finished transfer to COS"
