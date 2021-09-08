@@ -8,7 +8,7 @@ for i in $running_containers; do
     if [ $i == 'otp-server' ]; then
         echo "$i container is Running"
     elif [ $i == 'otp-server' ]; then
-        echo "$i container is not Running"
+        echo "$i container is Running"
     fi
 done
 
